@@ -41,8 +41,8 @@ app.get('/api/TodoItems', (req, res) => {
 });
 
 app.get('/api/TodoItems/:id', (req, res) => {
-  let toDoIndex = mock.find(item =>  item.todoItemId === parseInt(req.params.id));
-  res.send(toDoIndex) 
+  let selectedItem = mock.find(item =>  item.todoItemId === parseInt(req.params.id));
+  res.send(selectedItem) 
 });
 
 app.post('/api/TodoItems', (req, res) => {
@@ -57,9 +57,9 @@ app.post('/api/TodoItems', (req, res) => {
 });
 
 app.delete('/api/TodoItems/:id', (req, res) => {
-  let selectedItem = mock.find(item =>  item.todoItemId === parseInt(req.params.id));
-  mock.splice(selectedItem, 1);
-  res.send(selectedItem)
+  let deletedItem = mock.find(item =>  item.todoItemId === parseInt(req.params.id));
+  mock.splice(deletedItem, 1);
+  res.send(deletedItem)
 });
 
 module.exports = app;
