@@ -6,6 +6,10 @@ const app = express();
 
 app.use(morgan('dev'));
 
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(bodyParser.json())
+
 let mock = 
 [
     {
@@ -28,8 +32,9 @@ let mock =
     }
 ];
 
+
 app.get('/', (req, res) => {
-    res.send({'status': 'ok'})
+  res.send({'status': 'ok'})
 });
 
 app.get('/api/TodoItems', (req, res) => {
@@ -38,6 +43,17 @@ app.get('/api/TodoItems', (req, res) => {
 
 app.get('/api/TodoItems/:id', (req, res) => {
   res.send(mock[req.params.id])
+});
+
+app.post('/api/TodoItems', (req, res) => {
+  let mockToDo = {
+    todoItemId: mock.length + 1,
+    name: req.body.name,
+    priority: req.body.priority,
+    completed: req.body.completed
+  };
+  mock.push(mockToDo);
+  res.status(201).send(req.body);
 });
 
 module.exports = app;
