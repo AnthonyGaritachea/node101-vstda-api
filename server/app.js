@@ -8,7 +8,7 @@ app.use(morgan('dev'));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use(bodyParser.json())
+app.use(bodyParser.json());
 
 let mock = 
 [
@@ -32,7 +32,6 @@ let mock =
     }
 ];
 
-
 app.get('/', (req, res) => {
   res.send({'status': 'ok'})
 });
@@ -42,7 +41,8 @@ app.get('/api/TodoItems', (req, res) => {
 });
 
 app.get('/api/TodoItems/:id', (req, res) => {
-  res.send(mock[req.params.id])
+  let toDoIndex = mock.find(item =>  item.todoItemId === parseInt(req.params.id));
+  res.send(toDoIndex) 
 });
 
 app.post('/api/TodoItems', (req, res) => {
@@ -54,6 +54,12 @@ app.post('/api/TodoItems', (req, res) => {
   };
   mock.push(mockToDo);
   res.status(201).send(req.body);
+});
+
+app.delete('/api/TodoItems/:id', (req, res) => {
+  let selectedItem = mock.find(item =>  item.todoItemId === parseInt(req.params.id));
+  mock.splice(selectedItem, 1);
+  res.send(selectedItem)
 });
 
 module.exports = app;
